@@ -34,25 +34,20 @@ int main(int argc, char **argv) {
   /*
    * TO COMPLETE
    */
-    if ( strncmp( configuration.command, "dimension", 9 ) == 0 ) {
-    /* helloworld() function is defined in feature.h and implemented in feature.c */
+  if ( strncmp( configuration.command, "dimension", 9 ) == 0 ) {
     dimension(configuration.filenames[0]);
   }
   if ( strncmp( configuration.command, "first_pixel", 11 ) == 0 ) {
     /*first_pixel() function is defined in feature.h and implemented in feature.c*/
     first_pixel(configuration.filenames[0]);
   }
-  if (strncmp( configuration.command, "tenth_pixel", 11) == 0 ) {
-    /*tenth_pixel () function is defined in feature.h and implemented in feature.c */
-     tenth_pixel(configuration.filenames[0]);
+  if ( strncmp( configuration.command, "tenth_pixel", 11 ) == 0 ) {
+    /*first_pixel() function is defined in feature.h and implemented in feature.c*/
+    tenth_pixel(configuration.filenames[0]);
   }
-    if (strncmp( configuration.command, "second_line", 11) == 0 ) {
-    /*tenth_pixel () function is defined in feature.h and implemented in feature.c */
-     second_line(configuration.filenames[0]);
-  }
-      if (strncmp( configuration.command, "print_pixel", 11) == 0 ) {
-    /*tenth_pixel () function is defined in feature.h and implemented in feature.c */
-     print_pixel(configuration.filenames[0]);
+  if ( strncmp( configuration.command, "second_line", 11 ) == 0 ) {
+    /*first_pixel() function is defined in feature.h and implemented in feature.c*/
+    second_line(configuration.filenames[0]);
   }
   return 0;
 }
