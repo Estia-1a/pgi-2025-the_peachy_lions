@@ -17,7 +17,7 @@ void print_pixel(char * filename, int x, int y) {
     int width, height, n; // n = nombre de canaux (normalement 3 pour RGB)
 
         // Lecture des données de l'image
-    if (read_image_data (filename, &data, &width, &height, &n) != 0) {
+    if (read_image_data (filename, &data, &width, &height, &n) == 0) {
         fprintf(stderr, "Erreur: impossible de lire l'image: %s\n", filename);
         return;
 }
