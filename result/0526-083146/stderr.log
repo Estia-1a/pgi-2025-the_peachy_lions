@@ -1,0 +1,14 @@
+/home/runner/work/pgi-2025-the_peachy_lions/pgi-2025-the_peachy_lions/src/utils.c: In function ‘get_pixel’:
+/home/runner/work/pgi-2025-the_peachy_lions/pgi-2025-the_peachy_lions/src/utils.c:10:5: error: expected ‘;’ before ‘unsigned’
+   10 |     unsigned int index = (y * width + x) * n;
+      |     ^~~~~~~~
+/home/runner/work/pgi-2025-the_peachy_lions/pgi-2025-the_peachy_lions/src/utils.c:11:30: error: ‘index’ undeclared (first use in this function)
+   11 |     return (pixelRGB*) &data[index] ;
+      |                              ^~~~~
+/home/runner/work/pgi-2025-the_peachy_lions/pgi-2025-the_peachy_lions/src/utils.c:11:30: note: each undeclared identifier is reported only once for each function it appears in
+gmake[2]: *** [CMakeFiles/freud.dir/build.make:121: CMakeFiles/freud.dir/src/utils.c.o] Error 1
+gmake[2]: *** Waiting for unfinished jobs....
+gmake[1]: *** [CMakeFiles/Makefile2:87: CMakeFiles/freud.dir/all] Error 2
+gmake: *** [Makefile:136: all] Error 2
+
+The process '/usr/local/bin/cmake' failed with exit code 2
