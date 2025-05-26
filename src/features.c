@@ -72,3 +72,24 @@ void second_line(char *source_path) {
     }
 }*/
 }
+void color_red(char *source_path) {
+    const char * image_out = "image_out.bmp";
+    unsigned char * data;
+    int width;
+    int height;
+    int channel_count;
+    read_image_data (source_path, &data, &width,&height, &channel_count);
+    int a = width*height*3;
+    int b = 1;
+    int c = 2;
+    while (b <a){
+        data[b]=0;
+        data[b]=0;
+        b=b+3;}
+    while (c<a)
+    {
+    data [c]=0;
+    c=c+3;
+    }
+    write_image_data(image_out, data, width, height);
+}
