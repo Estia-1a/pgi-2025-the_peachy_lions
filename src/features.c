@@ -63,5 +63,12 @@ void second_line(char *source_path) {
     printf("second_line : %d, %d, %d", R, G, B);
     } else {
         printf("ERREUR !");
-    } 
+    }
+/*void min_pixel(char * filename){
+    if (read_image_data (filename, &data, &width, &height, &n) == 0) {
+        printf(stderr, "Erreur: impossible de lire l'image: %s\n", filename);
+    } else {
+
+    }
+}*/
 }
