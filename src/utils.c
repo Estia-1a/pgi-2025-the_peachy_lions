@@ -29,6 +29,13 @@ void print_pixel(char * filename, int x, int y) {
     } else {
     fprintf(stderr, "Pixel (%d, %d) is out of range or image data is NULL.\n", x, y);
 }
+/*void min_pixel(char * filename){
+    if (read_image_data (filename, &data, &width, &height, &n) == 0) {
+        printf(stderr, "Erreur: impossible de lire l'image: %s\n", filename);
+    } else {
+
+    }
+}*/
 
 //Libération de la mémoire allouée pour l'image
 free(data);
