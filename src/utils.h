@@ -19,5 +19,6 @@ pixelRGB * get_pixel( unsigned char* data, const unsigned int width, const unsig
 
 // Prototype de la fonction pour afficher un pixel
 void print_pixel(char*filename, int x, int y);
+void max_pixel(char*filename)
 
 #endif
