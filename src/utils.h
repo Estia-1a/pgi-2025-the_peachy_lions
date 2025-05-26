@@ -21,4 +21,5 @@ pixelRGB * get_pixel( unsigned char* data, const unsigned int width, const unsig
 void print_pixel(char*filename, int x, int y);
 void max_pixel(char*filename)
 
+void min_pixel(char*filename);
 #endif
