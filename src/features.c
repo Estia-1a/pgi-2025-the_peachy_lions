@@ -1,5 +1,6 @@
 #include <estia-image.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "features.h"
 #include "utils.h"
@@ -290,4 +291,40 @@ void min_pixel(char *source_path) {
     }
 
     printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, r_min, g_min, b_min);
+}
+void grayscale_image(const char *input_filename, const char *output_filename) {
+    unsigned char *data;
+    int width, height, pixel;
+
+    int result = read_image_data(input_filename, &data, &width, &height, &pixel);
+    if (result == 0) {
+        printf("ERREUR lors de la lecture de l'image.\n");
+        return;
+    }
+
+    unsigned char *gray_data = malloc(width * height * 3);
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int idx = (y * width + x) * 3;
+            unsigned char r = data[idx];
+            unsigned char g = data[idx + 1];
+            unsigned char b = data[idx + 2];
+
+            unsigned char gray = (r + g + b) / 3;
+
+            gray_data[idx]     = gray;
+            gray_data[idx + 1] = gray;
+            gray_data[idx + 2] = gray;
+        }
+    }
+
+    if (write_image_data(output_filename, gray_data, width, height)) {
+        printf("A new image %s as a gray version of the input image\n", output_filename);
+    } else {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+    free(gray_data);
 }
