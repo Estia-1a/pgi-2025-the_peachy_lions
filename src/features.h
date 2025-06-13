@@ -8,7 +8,6 @@ void first_pixel (char *source_path);
 void tenth_pixel (char *source_path);
 void second_line(char *source_path);
 void color_red (char *source_path);
-void min_component(char *source_path, char *value);
-void max_component(char *source_path, char *value);
+/*void min_pixel(char*filename);*/
 
 #endif
