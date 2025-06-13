@@ -256,3 +256,38 @@ void max_pixel(char *source_path) {
 
     printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, r_max, g_max, b_max);
 }
+void min_pixel(char *source_path) {
+    unsigned char *data;
+    int width, height, pixel;
+    int result = read_image_data(source_path, &data, &width, &height, &pixel);
+    if (result == 0) {
+        printf("ERREUR !\n");
+        return;
+    }
+
+    int min_sum = 255 * 3 + 1;
+    int min_x = 0;
+    int min_y = 0;
+    int r_min = 0, g_min = 0, b_min = 0;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixel = y * width + x;
+            int r = data[pixel * 3];
+            int g = data[pixel * 3 + 1];
+            int b = data[pixel * 3 + 2];
+            int sum = r + g + b;
+
+            if (sum < min_sum) {
+                min_sum = sum;
+                min_x = x;
+                min_y = y;
+                r_min = r;
+                g_min = g;
+                b_min = b;
+            }
+        }
+    }
+
+    printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, r_min, g_min, b_min);
+}
