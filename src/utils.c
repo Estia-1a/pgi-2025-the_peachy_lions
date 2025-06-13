@@ -30,6 +30,7 @@ void print_pixel(char * filename, int x, int y) {
     fprintf(stderr, "Pixel (%d, %d) is out of range or image data is NULL.\n", x, y);
 }
 
+
 //Libération de la mémoire allouée pour l'image
 free(data);
 
