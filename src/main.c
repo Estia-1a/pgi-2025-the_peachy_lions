@@ -9,6 +9,7 @@
 #include "utils.h"
 #include "argsparse.h"
 
+
 int main(int argc, char **argv) {
   /*To use debug mode: 
    - add --debug: freud.exe --debug -f images/input/image.jpeg
@@ -52,7 +53,7 @@ int main(int argc, char **argv) {
   }
   if ( strncmp( configuration.command, "color_red", 9 ) == 0 ) {
     color_red( configuration.filenames[0] );
-}
+}/*
   if (strncmp(configuration.command, "min_pixel", 9) == 0) {
     min_pixel(configuration.filenames[0]);
   }
@@ -79,6 +80,6 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
   }
    if ( strncmp( configuration.command, "min_component_B", 15 ) == 0 ) {
     min_component_B(configuration.filenames[0]);
-  }
+  }*/
   return 0;
 }
