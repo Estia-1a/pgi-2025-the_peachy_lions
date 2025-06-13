@@ -12,5 +12,6 @@ void color_blue (char *source_path);
 void color_green (char *source_path);
 void min_component(char *source_path, char *value);
 void max_component(char *source_path, char *value);
+void max_pixel(char *source_path);
 
 #endif
