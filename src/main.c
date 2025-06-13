@@ -53,33 +53,12 @@ int main(int argc, char **argv) {
   }
   if ( strncmp( configuration.command, "color_red", 9 ) == 0 ) {
     color_red( configuration.filenames[0] );
-}/*
-  if (strncmp(configuration.command, "min_pixel", 9) == 0) {
-    min_pixel(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_pixel", 9 ) == 0 ) {
-    max_pixel(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_component_R", 15 ) == 0 ) {
-    max_component_R(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_component_G", 15 ) == 0 ) {
-    max_component_G(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_component_B", 15 ) == 0 ) {
-    max_component_B(configuration.filenames[0]);
-  }
+}
+if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
+  min_component( configuration.filenames[0], configuration.arguments[0]);
+}
 if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
-    max_component(configuration.arguments[0][0], configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "min_component_R", 15 ) == 0 ) {
-    min_component_R(configuration.filenames[0]);
-  }
-   if ( strncmp( configuration.command, "min_component_G", 15 ) == 0 ) {
-    min_component_G(configuration.filenames[0]);
-  }
-   if ( strncmp( configuration.command, "min_component_B", 15 ) == 0 ) {
-    min_component_B(configuration.filenames[0]);
-  }*/
+  max_component( configuration.filenames[0], configuration.arguments[0]);
+}
   return 0;
 }
