@@ -102,5 +102,8 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
   if ( strncmp( configuration.command, "scale_nearest", 13 ) == 0 ) {
     scale_nearest( configuration.filenames[0], atof(configuration.arguments[0]));
   }
+   if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
+    stat_report( configuration.filenames[0]);
+  }
   return 0;
 }

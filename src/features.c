@@ -737,3 +737,50 @@ void scale_nearest(char *source_path, float scale_factor) {
     free(data_in);
     free(data_out);
 }
+void stat_report(char *source_path) {
+    FILE *f = fopen("stat_report.txt", "w");
+    if (!f) {
+        printf("Impossible de créer le ficher stat_report.txt\n");
+        return;
+    }
+
+    unsigned char *data;
+    int width, height, pixel;
+    read_image_data(source_path, &data, &width, &height, &pixel);
+
+    int max = 0, x_max = 0, y_max = 0;
+    int min = 255, x_min = 0, y_min = 0;
+    int maxR=0, maxG=0, maxB=0, minR=255, minG=255, minB=255;
+    int xMaxR=0, yMaxR=0, xMaxG=0, yMaxG=0, xMaxB=0, yMaxB=0;
+    int xMinR=0, yMinR=0, xMinG=0, yMinG=0, xMinB=0, yMinB=0;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int i = (y * width + x) * 3;
+            int r = data[i], g = data[i+1], b = data[i+2];
+            int val_max = (r > g) ? ((r > b) ? r : b) : ((g > b) ? g : b);
+            int val_min = (r < g) ? ((r < b) ? r : b) : ((g < b) ? g : b);
+
+            if (val_max > max) { max = val_max; x_max = x; y_max = y; }
+            if (val_min < min) { min = val_min; x_min = x; y_min = y; }
+
+            if (r > maxR) {maxR = r; xMaxR = x; yMaxR = y; }
+            if (g > maxG) {maxG = g; xMaxG = x; yMaxG = y; }
+            if (b > maxR) {maxB = b; xMaxB = x; yMaxB = y; }
+        }
+    }
+    fprintf(f, "max_pixel (%d, %d): %d, %d, %d\n\n", x_max, y_max, data[(y_max * width + x_max) * 3], data[(y_max * width + x_max) * 3 + 1], data[(y_max * width + x_max) * 3 + 2]);
+    fprintf(f, "min_pixel (%d, %d): %d, %d, %d\n\n", x_min, y_min, data[(y_min * width + x_min) * 3], data[(y_min * width + x_min) * 3 + 1], data[(y_min * width + x_min) * 3 + 2]);
+
+    fprintf(f, "max_component R (%d, %d): %d\n\n", xMaxR, yMaxR, maxR);
+    fprintf(f, "max_component G (%d, %d): %d\n\n", xMaxG, yMaxG, maxG);
+    fprintf(f, "max_component B (%d, %d): %d\n\n", xMaxB, yMaxB, maxB);
+
+    fprintf(f, "min_component R (%d, %d): %d\n\n", xMinR, yMinR, minR);
+    fprintf(f, "min_component G (%d, %d): %d\n\n", xMinG, yMinG, minG);
+    fprintf(f, "min_component B (%d, %d): %d\n", xMinB, yMinB, minB);
+
+    fclose(f);
+    free(data);
+    printf("Statistiques enregistrées dans stat_report.txt\n");
+}
