@@ -1,6 +1,7 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "features.h"
 #include "utils.h"
@@ -610,6 +611,63 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
     }
 
     write_image_data(image_out, data_out, final_crop_width, final_crop_height);
+
+    free(data_in);
+    free(data_out);
+}
+void scale_nearest(char *source_path, float scale_factor) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data_in;
+    unsigned char *data_out;
+    int original_width;
+    int original_height;
+    int channel_count;
+
+    read_image_data(source_path, &data_in, &original_width, &original_height, &channel_count);
+
+
+    int new_width = (int)round(original_width * scale_factor);
+    int new_height = (int)round(original_height * scale_factor);
+
+    if (scale_factor <= 0 || new_width <= 0 || new_height <= 0) {
+        fprintf(stderr, "Error: Invalid scale factor or resulting dimensions are too small.\n");
+        free(data_in);
+        return;
+    }
+
+
+    data_out = (unsigned char *)malloc(new_width * new_height * channel_count * sizeof(unsigned char));
+    if (data_out == NULL) {
+        fprintf(stderr, "Failed to allocate memory for scaled image.\n");
+        free(data_in);
+        return;
+    }
+
+    for (int y_out = 0; y_out < new_height; ++y_out) {
+        for (int x_out = 0; x_out < new_width; ++x_out) {
+
+            int x_in = (int)round(x_out / scale_factor);
+            int y_in = (int)round(y_out / scale_factor);
+
+
+            if (x_in < 0) x_in = 0;
+            if (x_in >= original_width) x_in = original_width - 1;
+            if (y_in < 0) y_in = 0;
+            if (y_in >= original_height) y_in = original_height - 1;
+
+ 
+            int input_pixel_index = (y_in * original_width + x_in) * channel_count;
+
+
+            int output_pixel_index = (y_out * new_width + x_out) * channel_count;
+
+            for (int c = 0; c < channel_count; ++c) {
+                data_out[output_pixel_index + c] = data_in[input_pixel_index + c];
+            }
+        }
+    }
+
+    write_image_data(image_out, data_out, new_width, new_height);
 
     free(data_in);
     free(data_out);
