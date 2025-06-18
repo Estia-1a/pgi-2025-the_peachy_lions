@@ -244,11 +244,6 @@ void rotate_cw(char *source_path) {
     for (int y = 0; y < height_in; ++y) {
         for (int x = 0; x < width_in; ++x) {
             int input_pixel_index = (y * width_in + x) * channel_count;
-
-            // Nouvelle formule pour la rotation de 90 degrés dans le sens horaire
-            // Le pixel (x, y) de l'entrée se déplace vers (new_x, new_y) en sortie
-            // new_x = original_height - 1 - original_y
-            // new_y = original_x
             int new_x = (height_in - 1) - y;
             int new_y = x;
             int output_pixel_index = (new_y * width_out + new_x) * channel_count;
