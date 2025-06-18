@@ -533,3 +533,84 @@ void mirror_total(char *source_path) {
     free(data_in);
     free(data_out);
 }
+void scale_crop(char *source_path, int center_x, int center_y, int crop_width, int crop_height) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data_in;
+    unsigned char *data_out;
+    int original_width;
+    int original_height;
+    int channel_count;
+
+    read_image_data(source_path, &data_in, &original_width, &original_height, &channel_count);
+
+    // Calculate the top-left corner of the crop rectangle
+    // We subtract half the crop_width/height from the center to get the top-left (x, y)
+    int crop_start_x = center_x - (crop_width / 2);
+    int crop_start_y = center_y - (crop_height / 2);
+
+    // Adjust crop boundaries to stay within the original image
+    int actual_crop_start_x = crop_start_x;
+    int actual_crop_start_y = crop_start_y;
+    int actual_crop_end_x = crop_start_x + crop_width;
+    int actual_crop_end_y = crop_start_y + crop_height;
+
+    // Clamp start coordinates to 0
+    if (actual_crop_start_x < 0) {
+        actual_crop_start_x = 0;
+    }
+    if (actual_crop_start_y < 0) {
+        actual_crop_start_y = 0;
+    }
+
+    // Clamp end coordinates to original image dimensions
+    if (actual_crop_end_x > original_width) {
+        actual_crop_end_x = original_width;
+    }
+    if (actual_crop_end_y > original_height) {
+        actual_crop_end_y = original_height;
+    }
+
+    // Calculate the actual width and height of the cropped region
+    int final_crop_width = actual_crop_end_x - actual_crop_start_x;
+    int final_crop_height = actual_crop_end_y - actual_crop_start_y;
+
+    // Handle cases where the crop region is completely outside or invalid
+    if (final_crop_width <= 0 || final_crop_height <= 0) {
+        fprintf(stderr, "Error: Cropping region is invalid or entirely outside the image.\n");
+        free(data_in);
+        return;
+    }
+
+    // Allocate memory for the output image data (cropped image)
+    data_out = (unsigned char *)malloc(final_crop_width * final_crop_height * channel_count * sizeof(unsigned char));
+    if (data_out == NULL) {
+        fprintf(stderr, "Failed to allocate memory for cropped image.\n");
+        free(data_in);
+        return;
+    }
+
+    // Copy the relevant pixel data from the input to the output image
+    for (int y = 0; y < final_crop_height; ++y) {
+        for (int x = 0; x < final_crop_width; ++x) {
+            // Calculate the coordinates in the original image
+            int original_x = actual_crop_start_x + x;
+            int original_y = actual_crop_start_y + y;
+
+            // Calculate the linear index for the pixel in the original image
+            int input_pixel_index = (original_y * original_width + original_x) * channel_count;
+
+            // Calculate the linear index for the pixel in the output (cropped) image
+            int output_pixel_index = (y * final_crop_width + x) * channel_count;
+
+            // Copy each channel (e.g., R, G, B)
+            for (int c = 0; c < channel_count; ++c) {
+                data_out[output_pixel_index + c] = data_in[input_pixel_index + c];
+            }
+        }
+    }
+
+    write_image_data(image_out, data_out, final_crop_width, final_crop_height);
+
+    free(data_in);
+    free(data_out);
+}
