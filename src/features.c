@@ -494,3 +494,42 @@ void mirror_vertical(char *source_path) {
     free(data_in);
     free(data_out);
 }
+void mirror_total(char *source_path) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data_in;
+    unsigned char *data_out;
+    int width;
+    int height;
+    int channel_count;
+
+    read_image_data(source_path, &data_in, &width, &height, &channel_count);
+
+  
+    data_out = (unsigned char *)malloc(width * height * channel_count * sizeof(unsigned char));
+    if (data_out == NULL) {
+        fprintf(stderr, "Failed to allocate memory for mirrored image.\n");
+        free(data_in);
+        return;
+    }
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+ 
+            int input_pixel_index = (y * width + x) * channel_count;
+
+            int new_x = (width - 1) - x;
+            int new_y = (height - 1) - y;
+            int output_pixel_index = (new_y * width + new_x) * channel_count;
+
+            // Copier chaque canal (ex: R, G, B)
+            for (int c = 0; c < channel_count; ++c) {
+                data_out[output_pixel_index + c] = data_in[input_pixel_index + c];
+            }
+        }
+    }
+
+    write_image_data(image_out, data_out, width, height);
+
+    free(data_in);
+    free(data_out);
+}
