@@ -87,5 +87,17 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
   if ( strncmp( configuration.command, "scale_bilinear", 14 ) == 0 ) {
     scale_bilinear( configuration.filenames[0], atof(configuration.arguments [0]));
   }
+  if ( strncmp( configuration.command, "mirror_horizontal", 17 ) == 0 ) {
+    mirror_horizontal( configuration.filenames[0]);
+  }
+  if ( strncmp( configuration.command, "mirror_vertical", 15 ) == 0 ) {
+    mirror_vertical( configuration.filenames[0]);
+  }
+  if ( strncmp( configuration.command, "mirror_total", 12 ) == 0 ) {
+    mirror_total( configuration.filenames[0]);
+  }
+  if ( strncmp( configuration.command, "scale_crop", 10 ) == 0 ) {
+    scale_crop( configuration.filenames[0], atoi(configuration.arguments[0]), atoi(configuration.arguments[1]), atoi(configuration.arguments[2]), atoi(configuration.arguments[3]));
+  }
   return 0;
 }
