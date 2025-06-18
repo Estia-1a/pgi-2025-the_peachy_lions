@@ -1,6 +1,7 @@
 #include <estia-image.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "features.h"
 #include "utils.h"
@@ -430,6 +431,71 @@ void rotate_acw(char *source_path) {
             data_out[index_out + 0] = data_in[index_in + 0];
             data_out[index_out + 1] = data_in[index_in + 1];
             data_out[index_out + 2] = data_in[index_in + 2];
+        }
+    }
+
+    write_image_data(image_out, data_out, width_out, height_out);
+
+    free(data_in);
+    free(data_out);
+}
+
+void scale_bilinear(char *source_path, float scale_factor) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data_in;
+    unsigned char *data_out;
+    int width_in;
+    int height_in;
+    int channel_count;
+
+    if (read_image_data(source_path, &data_in, &width_in, &height_in, &channel_count) == 0) {
+        fprintf(stderr, "Erreur: Impossible de lire l'image %s.\n", source_path);
+        return;
+    }
+
+    if (channel_count != 3) {
+        fprintf(stderr, "Erreur: L'image doit avoir 3 canaux (RGB) pour l'interpolation bilinéaire. Nombre de canaux: %d\n", channel_count);
+        free(data_in);
+        return;
+    }
+
+    int width_out = (int)roundf(width_in * scale_factor);
+    int height_out = (int)roundf(height_in * scale_factor);
+
+    data_out = (unsigned char *)malloc(width_out * height_out * channel_count * sizeof(unsigned char));
+    if (data_out == NULL) {
+        fprintf(stderr, "Erreur: Impossible d'allouer la mémoire pour l'image de sortie.\n");
+        free(data_in);
+        return;
+    }
+
+    for (int y_out = 0; y_out < height_out; y_out++) {
+        for (int x_out = 0; x_out < width_out; x_out++) {
+            float x_in_float = (float)x_out / scale_factor;
+            float y_in_float = (float)y_out / scale_factor;
+
+            int x1 = (int)floorf(x_in_float);
+            int y1 = (int)floorf(y_in_float);
+            int x2 = x1 + 1;
+            int y2 = y1 + 1;
+
+            float fx = x_in_float - x1;
+            float fy = y_in_float - y1;
+
+            for (int c = 0; c < channel_count; c++) {
+                int val11 = (x1 >= 0 && x1 < width_in && y1 >= 0 && y1 < height_in) ? data_in[(y1 * width_in + x1) * channel_count + c] : 0;
+                int val21 = (x2 >= 0 && x2 < width_in && y1 >= 0 && y1 < height_in) ? data_in[(y1 * width_in + x2) * channel_count + c] : 0;
+                int val12 = (x1 >= 0 && x1 < width_in && y2 >= 0 && y2 < height_in) ? data_in[(y2 * width_in + x1) * channel_count + c] : 0;
+                int val22 = (x2 >= 0 && x2 < width_in && y2 >= 0 && y2 < height_in) ? data_in[(y2 * width_in + x2) * channel_count + c] : 0;
+
+                float interpolated_value =
+                    val11 * (1 - fx) * (1 - fy) +
+                    val21 * fx * (1 - fy) +
+                    val12 * (1 - fx) * fy +
+                    val22 * fx * fy;
+
+                data_out[(y_out * width_out + x_out) * channel_count + c] = (unsigned char)roundf(interpolated_value);
+            }
         }
     }
 

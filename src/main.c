@@ -84,5 +84,8 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
   if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
     rotate_cw( configuration.filenames[0]);
   }
+  if ( strncmp( configuration.command, "scale_bilinear", 14 ) == 0 ) {
+    scale_bilinear( configuration.filenames[0], atof(configuration.arguments [0]));
+  }
   return 0;
 }
