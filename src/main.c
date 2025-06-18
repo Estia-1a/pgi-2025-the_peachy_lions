@@ -82,10 +82,13 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
     min_component_B(configuration.filenames[0]);
   }*/
   if ( strncmp( configuration.command, "color_green", 11 ) == 0 ) {
-    color_green( configuration.filenames[0] );
+    color_green( configuration.filenames[0]);
   }
   if ( strncmp( configuration.command, "color_blue", 11 ) == 0 ) {
     color_blue( configuration.filenames[0] );
+  }
+  if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
+    rotate_cw( configuration.filenames[0]);
   }
   return 0;
 }

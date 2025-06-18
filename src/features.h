@@ -10,6 +10,7 @@ void second_line(char *source_path);
 void color_red (char *source_path);
 void color_green (char *source_path);
 void color_blue (char *source_path);
+void rotate_cw (char *source_path);
 /*void min_pixel(char*filename);*/
 
 #endif
