@@ -72,8 +72,8 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
   if (strncmp(configuration.command, "min_pixel", 9) == 0) {
     min_pixel(configuration.filenames[0]);
   }
-    if (strncmp(configuration.command, "grayscale", 9) == 0) {
-    grayscale_image(configuration.filenames[0], configuration.filenames[1]);
+    if (strncmp(configuration.command, "color_gray", 10) == 0) {
+    color_gray(configuration.filenames[0]);
   }
   return 0;
 }

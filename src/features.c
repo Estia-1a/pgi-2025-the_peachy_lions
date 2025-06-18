@@ -292,39 +292,34 @@ void min_pixel(char *source_path) {
 
     printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, r_min, g_min, b_min);
 }
-void grayscale_image(const char *input_filename, const char *output_filename) {
-    unsigned char *data;
-    int width, height, pixel;
 
-    int result = read_image_data(input_filename, &data, &width, &height, &pixel);
-    if (result == 0) {
-        printf("ERREUR lors de la lecture de l'image.\n");
+void color_gray(char *source_path) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data;
+    int width;
+    int height;
+    int channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    if (channel_count != 3) {
+        fprintf(stderr, "Erreur: L'image doit avoir 3 canaux (RGB) pour la conversion en niveaux de gris.\n");
+        free(data);
         return;
     }
 
-    unsigned char *gray_data = malloc(width * height * 3);
+    for (int i = 0; i < width * height * channel_count; i += channel_count) {
+        unsigned char blue = data[i];
+        unsigned char green = data[i + 1];
+        unsigned char red = data[i + 2];
 
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            int idx = (y * width + x) * 3;
-            unsigned char r = data[idx];
-            unsigned char g = data[idx + 1];
-            unsigned char b = data[idx + 2];
+        unsigned char gray = (unsigned char)(0.299 * red + 0.587 * green + 0.114 * blue);
 
-            unsigned char gray = (r + g + b) / 3;
-
-            gray_data[idx]     = gray;
-            gray_data[idx + 1] = gray;
-            gray_data[idx + 2] = gray;
-        }
+        data[i] = gray;
+        data[i + 1] = gray;
+        data[i + 2] = gray;
     }
 
-    if (write_image_data(output_filename, gray_data, width, height)) {
-        printf("A new image %s as a gray version of the input image\n", output_filename);
-    } else {
-        printf("Erreur lors de l'écriture de l'image.\n");
-    }
-
+    write_image_data(image_out, data, width, height);
     free(data);
-    free(gray_data);
 }
