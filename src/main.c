@@ -78,5 +78,8 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
    if (strncmp(configuration.command, "color_invert", 12) == 0) {
     color_invert(configuration.filenames[0]);
   }
+  if (strncmp(configuration.command, "rotate_acw", 10) == 0) {
+    rotate_acw(configuration.filenames[0]);
+  }
   return 0;
 }

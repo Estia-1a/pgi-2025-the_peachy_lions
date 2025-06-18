@@ -346,3 +346,51 @@ void color_invert(char *source_path) {
     write_image_data(image_out, data, width, height);
     free(data);
 }
+void rotate_acw(char *source_path) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data_in;
+    unsigned char *data_out;
+    int width_in;
+    int height_in;
+    int channel_count;
+
+    if (read_image_data(source_path, &data_in, &width_in, &height_in, &channel_count) == 0) {
+        fprintf(stderr, "Erreur: Impossible de lire l'image %s.\n", source_path);
+        return;
+    }
+
+    if (channel_count != 3) {
+        fprintf(stderr, "Erreur: L'image doit avoir 3 canaux (RGB) pour la rotation. Nombre de canaux: %d\n", channel_count);
+        free(data_in);
+        return;
+    }
+
+    int width_out = height_in;
+    int height_out = width_in;
+
+    data_out = (unsigned char *)malloc(width_out * height_out * channel_count * sizeof(unsigned char));
+    if (data_out == NULL) {
+        fprintf(stderr, "Erreur: Impossible d'allouer la mémoire pour l'image de sortie.\n");
+        free(data_in);
+        return;
+    }
+
+    for (int y_in = 0; y_in < height_in; y_in++) {
+        for (int x_in = 0; x_in < width_in; x_in++) {
+            int x_out = y_in;
+            int y_out = (width_in - 1) - x_in;
+
+            int index_in = (y_in * width_in + x_in) * channel_count;
+            int index_out = (y_out * width_out + x_out) * channel_count;
+
+            data_out[index_out + 0] = data_in[index_in + 0];
+            data_out[index_out + 1] = data_in[index_in + 1];
+            data_out[index_out + 2] = data_in[index_in + 2];
+        }
+    }
+
+    write_image_data(image_out, data_out, width_out, height_out);
+
+    free(data_in);
+    free(data_out);
+}
