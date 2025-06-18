@@ -27,5 +27,5 @@ void scale_crop(char *source_path, int center_x, int center_y, int crop_width, i
 void scale_nearest(char *source_path, float scale_factor);
 void print_pixel(char *source_path, int x, int y);
 void stat_report(char *source_path);
-
+void colo_desaturate(char *source_path);
 #endif

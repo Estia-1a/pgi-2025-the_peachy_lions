@@ -105,5 +105,8 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
    if ( strncmp( configuration.command, "stat_report", 11 ) == 0 ) {
     stat_report( configuration.filenames[0]);
   }
+  if (strncmp(configuration.command, "color_desaturate", 16) == 0) {
+        color_desaturate(configuration.filenames[0]);
+    }
   return 0;
 }

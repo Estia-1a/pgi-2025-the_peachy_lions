@@ -784,3 +784,40 @@ void stat_report(char *source_path) {
     free(data);
     printf("Statistiques enregistrées dans stat_report.txt\n");
 }
+int min3(int a, int b, int c) {
+    if (a <= b && a <= c) return a;
+    else if (b <=a && b <= c) return b;
+    else return c;
+}
+
+int max3(int a, int b, int c) {
+    if (a >= b && a >= c) return a;
+    else if (b >= a && b >= c) return b;
+    else return c;
+}
+void color_desaturate(char *source_path) {
+    unsigned char *data;
+    int width, height, pixel_size;
+
+    if (read_image_data(source_path, &data, &width, &height, &pixel_size) == 0) {
+       printf("Error: couldn't load image\n");
+        return;
+    }
+
+    for (int i = 0; i < width * height; i++) {
+        int r = data[i * 3];
+        int g = data[i * 3 + 1];
+        int b = data[i * 3 + 2];
+
+        int min_val = min3(r, g, b);
+        int max_val = max3(r, g, b);
+        unsigned char new_val = (min_val + max_val) / 2;
+
+        data[i * 3] = new_val;
+        data[i * 3 + 1] = new_val;
+        data[i * 3 + 2] = new_val;
+    }
+
+    write_image_data("image_out.bmp", data, width, height);
+    free(data);
+}
