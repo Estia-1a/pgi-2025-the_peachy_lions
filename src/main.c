@@ -84,5 +84,8 @@ if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
   if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
     rotate_cw( configuration.filenames[0]);
   }
+  if ( strncmp( configuration.command, "mirror_horizontal", 17 ) == 0 ) {
+    mirror_horizontal( configuration.filenames[0]);
+  }
   return 0;
 }
