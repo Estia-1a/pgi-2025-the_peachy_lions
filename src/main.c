@@ -53,39 +53,33 @@ int main(int argc, char **argv) {
   }
   if ( strncmp( configuration.command, "color_red", 9 ) == 0 ) {
     color_red( configuration.filenames[0] );
-}/*
-  if (strncmp(configuration.command, "min_pixel", 9) == 0) {
-    min_pixel(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_pixel", 9 ) == 0 ) {
-    max_pixel(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_component_R", 15 ) == 0 ) {
-    max_component_R(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_component_G", 15 ) == 0 ) {
-    max_component_G(configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "max_component_B", 15 ) == 0 ) {
-    max_component_B(configuration.filenames[0]);
-  }
+}
+if ( strncmp( configuration.command, "min_component", 13 ) == 0 ) {
+  min_component( configuration.filenames[0], configuration.arguments[0]);
+}
 if ( strncmp( configuration.command, "max_component", 13 ) == 0 ) {
-    max_component(configuration.arguments[0][0], configuration.filenames[0]);
-  }
-  if ( strncmp( configuration.command, "min_component_R", 15 ) == 0 ) {
-    min_component_R(configuration.filenames[0]);
-  }
-   if ( strncmp( configuration.command, "min_component_G", 15 ) == 0 ) {
-    min_component_G(configuration.filenames[0]);
-  }
-   if ( strncmp( configuration.command, "min_component_B", 15 ) == 0 ) {
-    min_component_B(configuration.filenames[0]);
-  }*/
+    max_component(configuration.arguments[0], configuration.filenames[0]);
+}
   if ( strncmp( configuration.command, "color_green", 11 ) == 0 ) {
     color_green( configuration.filenames[0]);
   }
   if ( strncmp( configuration.command, "color_blue", 11 ) == 0 ) {
     color_blue( configuration.filenames[0] );
+  }
+  if (strncmp(configuration.command, "max_pixel", 9) == 0) {
+    max_pixel(configuration.filenames[0]);
+  }
+  if (strncmp(configuration.command, "min_pixel", 9) == 0) {
+    min_pixel(configuration.filenames[0]);
+  }
+    if (strncmp(configuration.command, "color_gray", 10) == 0) {
+    color_gray(configuration.filenames[0]);
+  }
+   if (strncmp(configuration.command, "color_invert", 12) == 0) {
+    color_invert(configuration.filenames[0]);
+  }
+  if (strncmp(configuration.command, "rotate_acw", 10) == 0) {
+    rotate_acw(configuration.filenames[0]);
   }
   if ( strncmp( configuration.command, "rotate_cw", 9 ) == 0 ) {
     rotate_cw( configuration.filenames[0]);
