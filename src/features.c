@@ -323,3 +323,26 @@ void color_gray(char *source_path) {
     write_image_data(image_out, data, width, height);
     free(data);
 }
+
+void color_invert(char *source_path) {
+    const char *image_out = "image_out.bmp";
+    unsigned char *data;
+    int width;
+    int height;
+    int channel_count;
+
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+
+    if (channel_count != 3) {
+        fprintf(stderr, "Erreur: L'image doit avoir 3 canaux (RGB) pour inverser les couleurs.\n");
+        free(data);
+        return;
+    }
+
+    for (int i = 0; i < width * height * channel_count; i++) {
+        data[i] = 255 - data[i];
+    }
+
+    write_image_data(image_out, data, width, height);
+    free(data);
+}
