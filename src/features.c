@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 
 #include "features.h"
 #include "utils.h"
@@ -113,11 +114,12 @@ void min_component(char *source_path, char *value) {
         printf("min_component B (%d, %d): %d\n", min_x, min_y, min_value);
     }
 }
+
 void max_component(char *source_path, char *value) {
     unsigned char *data;
-    int width, height, pixel;
-    int result = read_image_data(source_path, &data, &width, &height, &pixel);
-    
+    int width, height, channel_count;
+    int result = read_image_data (source_path, &data, &width,&height, &channel_count);
+
     if(result == 0){
         printf("ERREUR !\n");
         return;
@@ -129,27 +131,38 @@ void max_component(char *source_path, char *value) {
 
     for (int y = 0; y < height; y++) {
         for (int x = 0; x < width; x++) {
-            pixel = y * width + x;
-            int r = data[pixel * 3];
-            int g = data[pixel * 3 + 1];
-            int b = data[pixel * 3 + 2];
-            int verif = 0;
+            int pixel_index_start = (y * width + x) * channel_count;
+
+            int r = (channel_count >= 1) ? data[pixel_index_start] : 0;
+            int g = (channel_count >= 2) ? data[pixel_index_start + 1] : 0;
+            int b = (channel_count >= 3) ? data[pixel_index_start + 2] : 0;
+
+            int current_component_value = 0;
 
             if (*value == 'R') {
-                verif = r;
+                current_component_value = r;
             } else if (*value == 'G') {
-                verif = g;
+                current_component_value = g;
             } else if (*value == 'B') {
-                verif = b;
+                current_component_value = b;
+            } else {
+                fprintf(stderr, "Error: Invalid component character '%c'. Please use 'R', 'G', or 'B'.\n", *value);
+                free(data);
+                return;
             }
 
-            if (verif > max_value) {
-                max_value = verif;
+            if (current_component_value > max_value) {
+                max_value = current_component_value;
                 max_x = x;
                 max_y = y;
+                if (max_value == 255) {
+                    goto end_loops;
+                }
             }
         }
     }
+
+end_loops:;
 
     if (*value == 'R') {
         printf("max_component R (%d, %d): %d\n", max_x, max_y, max_value);
@@ -157,7 +170,11 @@ void max_component(char *source_path, char *value) {
         printf("max_component G (%d, %d): %d\n", max_x, max_y, max_value);
     } else if (*value == 'B') {
         printf("max_component B (%d, %d): %d\n", max_x, max_y, max_value);
+    } else {
+        printf("max_component unknown_component (%d, %d): %d\n", max_x, max_y, max_value);
     }
+
+    free(data);
 }
 void color_red(char *source_path) {
     const char * image_out = "image_out.bmp";
