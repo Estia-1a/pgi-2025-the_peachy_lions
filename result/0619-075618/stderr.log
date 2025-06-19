@@ -1,0 +1,5 @@
+/home/runner/work/pgi-2025-the_peachy_lions/pgi-2025-the_peachy_lions/src/main.c: In function ‘main’:
+/home/runner/work/pgi-2025-the_peachy_lions/pgi-2025-the_peachy_lions/src/main.c:109:9: warning: implicit declaration of function ‘color_desaturate’; did you mean ‘colo_desaturate’? [-Wimplicit-function-declaration]
+  109 |         color_desaturate(configuration.filenames[0]);
+      |         ^~~~~~~~~~~~~~~~
+      |         colo_desaturate
