@@ -25,7 +25,7 @@ void print_pixel(char * filename, int x, int y) {
     pixelRGB *pixel = get_pixel(data, width, height, n, x, y);
     if (pixel) {
         //Affichage des composantes RGB
-        printf("print_pixel (%d, %d) %d, %d, %d\n", x, y, pixel->R, pixel->G, pixel->B);
+        printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, pixel->R, pixel->G, pixel->B);
     } else {
     fprintf(stderr, "Pixel (%d, %d) is out of range or image data is NULL.\n", x, y);
 }
